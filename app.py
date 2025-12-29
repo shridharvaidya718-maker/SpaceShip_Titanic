@@ -2,7 +2,7 @@ from fastapi import FastAPI , HTTPException
 app = FastAPI()
 import pickle
 
-model_file = pickle.load(open('best_xgb_model_3.pkl' , 'rb'))
+model_file = pickle.load(open('best_xgb_model.pkl' , 'rb'))
 model = model_file['model']
 features = model_file['features']
 categorical_map = model_file['categorical_map']
@@ -69,4 +69,5 @@ def prediction(dictionary : dict):
     prob_class_1 = prediction[:, positive_class_index]
     df_prob_class_1 = pd.DataFrame(prob_class_1, columns=['probablity'])
     df_prob_class_1['probablity'] = np.where(df_prob_class_1['probablity'] > threshold , 1 , 0)
+
     return df_prob_class_1['probablity'].tolist()
